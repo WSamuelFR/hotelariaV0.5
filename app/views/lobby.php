@@ -74,21 +74,49 @@ require_once('layout/sidebar.php');
                     <button class="btn btn-primary" type="button" id="quartoSearchButton"><i class="fas fa-search"></i></button>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Nº Quarto</th>
-                            <th>Tipo / Camas</th>
-                            <th>Ocupação</th>
-                            <th>Limpeza</th>
-                            <th>Hóspede</th>
-                            <th class="text-center">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="quartoTableBody"></tbody>
-                </table>
-            </div>
+            <div class="col-md-4 col-lg-3">
+    <div class="card h-100 shadow-sm">
+
+        <!-- Header -->
+        <div class="card-header bg-dark text-white text-center fw-bold">
+            Quarto Nº 101
+        </div>
+
+        <!-- Body -->
+        <div class="card-body">
+            <p class="mb-1">
+                <strong>Tipo / Camas:</strong><br>
+                Suíte • 2 camas
+            </p>
+
+            <p class="mb-1">
+                <strong>Ocupação:</strong><br>
+                <span class="badge bg-success">Ocupado</span>
+            </p>
+
+            <p class="mb-1">
+                <strong>Limpeza:</strong><br>
+                <span class="badge bg-warning text-dark">Pendente</span>
+            </p>
+
+            <p class="mb-0">
+                <strong>Hóspede:</strong><br>
+                João da Silva
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer text-center">
+            <button class="btn btn-sm btn-primary me-1">
+                <i class="bi bi-pencil"></i> Editar
+            </button>
+            <button class="btn btn-sm btn-danger">
+                <i class="bi bi-trash"></i> Excluir
+            </button>
+        </div>
+
+    </div>
+</div>
         </div>
 
         <div class="tab-pane fade" id="reservas" role="tabpanel">
