@@ -61,21 +61,89 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderQuartos = (quartos) => {
-        if (!quartoTableBody) return;
-        quartoTableBody.innerHTML = '';
-        const filtrados = quartos.filter(q => {
-            if (currentQuartoFilter === 'todos') return true;
-            if (currentQuartoFilter === 'livre') return q.status_principal === 'livre' && q.clean_status === 'limpo';
-            if (currentQuartoFilter === 'ocupado') return q.status_principal === 'ocupado';
-            if (currentQuartoFilter === 'sujo') return q.clean_status === 'sujo';
-            return true;
-        });
-        filtrados.forEach(q => {
-            const rowClass = q.status_principal === 'ocupado' ? 'status-ocupado' : (q.clean_status === 'sujo' ? 'status-sujo' : 'status-livre');
-            const btnDisable = (q.status_principal === 'ocupado' || q.clean_status === 'limpo') ? 'disabled' : '';
-            quartoTableBody.innerHTML += `<tr class="${rowClass}"><td>#${q.numero}</td><td>${q.tipo}</td><td><span class="badge ${q.status_principal === 'ocupado' ? 'badge-ocupado' : 'badge-limpo'}">${q.status_display.toUpperCase()}</span></td><td><span class="badge ${q.clean_status === 'sujo' ? 'badge-sujo' : 'badge-limpo'}">${q.clean_status.toUpperCase()}</span></td><td>${q.cliente_atual || '---'}</td><td class="text-center"><button onclick="realizarLimpeza(${q.id})" class="btn btn-sm btn-outline-success" ${btnDisable}><i class="fas fa-broom"></i> Limpeza</button><a href="up_quarto.php?id=${q.id}" class="btn btn-sm btn-primary ms-1"><i class="fas fa-cog"></i></a></td></tr>`;
-        });
-    };
+    const container = document.getElementById('quartoCardsContainer');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const filtrados = quartos.filter(q => {
+        if (currentQuartoFilter === 'todos') return true;
+        if (currentQuartoFilter === 'livre') return q.status_principal === 'livre' && q.clean_status === 'limpo';
+        if (currentQuartoFilter === 'ocupado') return q.status_principal === 'ocupado';
+        if (currentQuartoFilter === 'sujo') return q.clean_status === 'sujo';
+        return true;
+    });
+
+    filtrados.forEach(q => {
+        const cardClass =
+            q.status_principal === 'ocupado'
+                ? 'status-ocupado'
+                : (q.clean_status === 'sujo' ? 'status-sujo' : 'status-livre');
+
+        const btnDisable =
+            (q.status_principal === 'ocupado' || q.clean_status === 'limpo')
+                ? 'disabled'
+                : '';
+
+        container.innerHTML += `
+        <div class="col-md-4 col-lg-3">
+            <div class="card h-100 shadow-sm ${cardClass}">
+
+                <!-- Header -->
+                <div class="card-header bg-dark text-white text-center fw-bold">
+                    Quarto #${q.numero}
+                </div>
+
+                <!-- Body -->
+                <div class="card-body">
+                    <p class="mb-2">
+                        <strong>Tipo / Camas:</strong><br>
+                        ${q.tipo}
+                    </p>
+
+                    <p class="mb-2">
+                        <strong>Ocupação:</strong><br>
+                        <span class="badge ${q.status_principal === 'ocupado' ? 'badge-ocupado' : 'badge-limpo'}">
+                            ${q.status_display.toUpperCase()}
+                        </span>
+                    </p>
+
+                    <p class="mb-2">
+                        <strong>Limpeza:</strong><br>
+                        <span class="badge ${q.clean_status === 'sujo' ? 'badge-sujo' : 'badge-limpo'}">
+                            ${q.clean_status.toUpperCase()}
+                        </span>
+                    </p>
+
+                    <p class="mb-0">
+                        <strong>Hóspede:</strong><br>
+                        ${q.cliente_atual || '---'}
+                    </p>
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer text-center">
+                    <button 
+                        onclick="realizarLimpeza(${q.id})"
+                        class="btn btn-sm btn-outline-success"
+                        ${btnDisable}
+                    >
+                        <i class="fas fa-broom"></i> Limpeza
+                    </button>
+
+                    <a 
+                        href="up_quarto.php?id=${q.id}" 
+                        class="btn btn-sm btn-primary ms-1"
+                    >
+                        <i class="fas fa-cog"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        `;
+    });
+};
 
     const renderReservas = (reservas) => {
         if (!reservaTableBody) return;
